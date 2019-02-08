@@ -6,6 +6,7 @@ $ npm intall
 ```
 
 ## 2. Please enter the string you want to create
+`createSlackStamp.js`
 ``` createSlackStamp.js
 line 32:    input.value = 'てすと'; // ← change
 ```
