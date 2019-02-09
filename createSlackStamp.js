@@ -8,18 +8,17 @@ const {DOM} = require('./dom/dom');
 const TARGET_IMAGE = /^https:\/\/emoji-gen\.ninja\/emoji\?align=center&back_color=FFFFFF00&color=000000FF&font=rounded-x-mplus-1p-black.*$/;
 const SAVE_IMAGE_PATH = __dirname + '/screenshot/emoji';
 
-// const CREATE_STR = process.env.STR;
-// if (typeof CREATE_STR === 'undefined') {
-//     console.log('文字が指定されていません。');
-//     return;
-// }
+const CREATE_STR = process.env.STR;
+if (typeof CREATE_STR === 'undefined') {
+    console.log('文字が指定されていません。');
+    return;
+}
 
 puppeteer.launch({
     headless: false,
     args: [
         '--window-size=1024,768'
     ],
-    // slowMo: 200
 }).then(async browser => {
 
     const page = await browser.newPage();
@@ -27,14 +26,11 @@ puppeteer.launch({
     await page.goto('https://emoji-gen.ninja/#!/');
 
     // 文字画像生成
-    await page.$eval(DOM.TEXT, input => {
-        // 値を入れた後にフォーカスを当てないとだめだった
-        input.value = 'てすと';
-        input.focus();
-    });
+    await page.$eval(DOM.TEXT, input => input.value = '');
+    await page.type(DOM.TEXT, CREATE_STR); // $evalだと値が取れなかった。
+    await page.focus(DOM.TEXT);
     await page.click(DOM.FONT_BUTTON_ROUNDED);
     await page.$eval(DOM.COLOR, input => {
-        // 値を入れた後にフォーカスを当てないとだめだった
         input.value = '#000000';
         input.focus();
     });
@@ -54,7 +50,7 @@ puppeteer.launch({
         images.forEach(async url => {
             const response = await fetch(url);
             let buffer = await response.buffer();
-            const filename = 'stamp' + '.png';
+            const filename = 'stamp.png';
             await fs.writeFileSync(`${SAVE_IMAGE_PATH}/${filename}`, buffer);
             console.log('保存に成功しました。');
         });
@@ -63,5 +59,4 @@ puppeteer.launch({
     }
 
     await browser.close();
-
 });

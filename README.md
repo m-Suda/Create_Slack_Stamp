@@ -5,18 +5,12 @@
 $ npm intall
 ```
 
-## 2. Please enter the string you want to create
-`createSlackStamp.js`
-``` createSlackStamp.js
-line 32:    input.value = 'てすと'; // ← change
+## 2. Execute script
+```
+$ STR=ほげ node createSlackStamp.js
 ```
 
-## 3. Execute script
-```
-$ node createSlackStamp.js
-```
-
-## 4. An image is created in 'screenshot/emoji/'.
+## 3. An image is created in 'screenshot/emoji/'.
 ```
 Create_Slack_stamp
   └ screenshot
@@ -24,4 +18,4 @@ Create_Slack_stamp
       └ stamp.png // ←created
 ```
 
-## 5. Please upload the image to Slack.
+## 4. Please upload the image to Slack.
