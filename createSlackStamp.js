@@ -14,11 +14,12 @@ if (typeof CREATE_STR === 'undefined') {
     return;
 }
 
+// ここのコメントを外すと実際にChromeが起動して自動で動きます。
 puppeteer.launch({
-    headless: false,
-    args: [
-        '--window-size=1024,768'
-    ],
+    // headless: false,
+    // args: [
+    //     '--window-size=1024,768'
+    // ],
 }).then(async browser => {
 
     const page = await browser.newPage();
@@ -47,10 +48,10 @@ puppeteer.launch({
         }
     });
     try {
-        images.forEach(async url => {
+        images.forEach(async (url, index) => {
             const response = await fetch(url);
             let buffer = await response.buffer();
-            const filename = 'stamp.png';
+            const filename = `stamp${index}.png`;
             await fs.writeFileSync(`${SAVE_IMAGE_PATH}/${filename}`, buffer);
             console.log('保存に成功しました。');
         });
